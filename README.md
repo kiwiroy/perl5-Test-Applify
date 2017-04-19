@@ -2,6 +2,14 @@
 
 Test::Applify - Testing Applify scripts
 
+<div>
+    <a href="https://travis-ci.org/kiwiroy/perl5-Test-Applify"><img src="https://travis-ci.org/kiwiroy/perl5-Test-Applify.svg?branch=master" alt="Build Status"></a>
+</div>
+
+<div>
+    <a href="https://coveralls.io/github/kiwiroy/perl5-Test-Applify?branch=master"><img src="https://coveralls.io/repos/github/kiwiroy/perl5-Test-Applify/badge.svg?branch=master" alt="Coverage Status"></a>
+</div>
+
 # SYNOPSIS
 
     use Test::More;
