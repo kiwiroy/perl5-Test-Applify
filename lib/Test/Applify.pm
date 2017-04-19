@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Test::More ();
 
-our $VERSION = '1.0';
+our $VERSION = '0.01';
 
 sub app {
   @_ == 2 and $_[0]->{app} = $_[1];

@@ -7,9 +7,9 @@ perl:
   - "5.16"
   - "5.14"
 install:
-  - cpanm --quiet --installdeps --with-develop .
-script:
-  - perl Makefile.PL && make && make test && cover -test -report coveralls
+  - cpanm -n --quiet --installdeps --with-develop .
+after_success:
+  - cover -test -report coveralls
 sudo: false
 notifications:
   email: false
