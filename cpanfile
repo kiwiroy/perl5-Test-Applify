@@ -1,3 +1,5 @@
 requires 'Applify' => '0.12';
 
-author_requires 'Devel::Cover::Report::Coverallees' => '0.11';
+on develop => sub {
+  requires 'Devel::Cover::Report::Coveralls' => '0.11';
+};

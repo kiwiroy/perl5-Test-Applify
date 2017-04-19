@@ -223,10 +223,27 @@ Test and access the help for the script.
 
 =head2 is_option
 
+  $t->is_option('mode');
+  $t->is_option($_) for qw{mode input};
+
+Test for the presence of an option with the supplied name
+
 =head2 is_required_option
+
+  $t->is_required_option('input');
+
+Test that the option is a required option.
 
 =head2 new
 
+  my $t = Test::Applify->new('script.pl');
+
+Instantiate a new test instance for the supplied script name.
+
 =head2 version_ok
+
+  $t->version_ok('1.0.999');
+
+Test that the version matches the supplied version.
 
 =cut

@@ -10,5 +10,6 @@ WriteMakefile(
   VERSION_FROM => 'lib/Test/Applify.pm',
   ABSTRACT     => 'Testing framework for Applify',
   AUTHOR       => 'Roy Storey <rs@some.org>',
+  PREREQ_PM    => { Applify => '0.12' },
   test => {TESTS => 't/*.t'}
 );
