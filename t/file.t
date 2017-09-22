@@ -3,7 +3,7 @@ use warnings;
 use Test::More;
 use Test::Applify;
 
-my $t = Test::Applify->new('t/file.pl');
+my $t = Test::Applify->new('./t/file.pl');
 can_ok $t, qw{app app_script app_instance can_ok documentation_ok help_ok};
 can_ok $t, qw{is_option is_required_option version_ok};
 
@@ -33,27 +33,27 @@ is $inst->input, 'test.txt', 'also set';
 ##
 
 ## script with syntax errors
-eval { Test::Applify->new('t/syntax-error-1.pl'); };
-like $@, qr[syntax error at t/syntax\-error\-1\.pl], 'syntax error';
+eval { Test::Applify->new('./t/syntax-error-1.pl'); };
+like $@, qr[syntax error at ./t/syntax\-error\-1\.pl], 'syntax error';
 
 ## script with syntax errors
-eval { Test::Applify->new('t/syntax-error-2.pl'); };
+eval { Test::Applify->new('./t/syntax-error-2.pl'); };
 like $@, qr[Can't locate WhiteSpace\.pm in \@INC], 'syntax error';
 
 ## script that does not exist
-eval { Test::Applify->new('t/not-existing.pl'); };
+eval { Test::Applify->new('./t/not-existing.pl'); };
 like $@, qr[Applify app not created], 'app not defined';
 like $@, qr[\(No such file or directory\)], 'no such file';
 
 ## script that has an expression evaluated after app() is.
-$t = Test::Applify->new('t/coding-error-1.pl');
+$t = Test::Applify->new('./t/coding-error-1.pl');
 is $t->app_instance->some_method, 'something', 'recovered';
 
 ## script that has definitions after app()
-$t = Test::Applify->new('t/coding-error-2.pl');
+$t = Test::Applify->new('./t/coding-error-2.pl');
 is $t->app_instance->some_method, 'something', 'recovered again';
 
-eval { Test::Applify->new('t/coding-error-3.pl'); };
+eval { Test::Applify->new('./t/coding-error-3.pl'); };
 like $@, qr[coding error in], 'coding error - no app';
 
 

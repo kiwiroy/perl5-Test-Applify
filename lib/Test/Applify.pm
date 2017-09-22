@@ -148,7 +148,7 @@ Test::Applify - Testing Applify scripts
   use Test::More;
   use Test::Applify;
 
-  my $t = Test::Applify->new('bin/app.pl');
+  my $t = Test::Applify->new('./bin/app.pl');
   my $help = $t->help_ok;
   like $help, qr/basic/, 'help mentions basic mode';
   $t->documentation_ok;
@@ -189,10 +189,13 @@ checks for success of C<do>.
 
 =head2 app
 
-  my $t   = Test::Applify->new('bin/app.pl');
+  my $t   = Test::Applify->new('./bin/app.pl');
   my $app = $t->app;
 
 Access to the application.
+
+B<N.B.> The removal of C<.> from C<@INC> requires relative paths to start with
+C<./>. See link for further information L<https://goo.gl/eJ6k9E>
 
 =head2 app_script
 
