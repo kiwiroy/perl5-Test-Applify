@@ -2,13 +2,36 @@ package Test::Applify;
 
 use strict;
 use warnings;
+use Carp 'croak';
+use Exporter 'import';
+use File::Temp ();
 use Test::More ();
 
-our $VERSION = '0.01';
+our @EXPORT_OK = ('applify_ok');
+our $VERSION = '0.02';
 
 sub app {
   @_ == 2 and $_[0]->{app} = $_[1];
   $_[0]->{app};
+}
+
+sub applify_ok {
+  my $code = shift;
+  my $args = shift;
+  my $desc = shift || 'applify_ok';
+  my $self = __PACKAGE__->new();
+  my $dir  = File::Temp->newdir(TEMPLATE => 'test-applify-XXXXX', DIR => $ENV{TMPDIR});
+  my $fh   = File::Temp->new(DIR => $dir, SUFFIX => '.pl');
+  my $file = $fh->filename;
+  ($fh->syswrite($code) // -1) == length $code
+    or croak qq{Can't write to file "$file": $!};
+
+  my $app = $self->_build_code($file, @$args);
+
+  # _build_code does this?
+  $self->_test('ok', ref($app), "$desc (compilation)");
+
+  return $app;
 }
 
 sub app_script {
@@ -88,7 +111,7 @@ sub version_ok {
 }
 
 sub _build_code {
-  my ($self, $name) = @_;
+  my ($self, $name) = (shift, shift);
   my ($app, %seen);
   foreach my $file (grep { not $seen{$_}++ }
                     grep { -e $_ and -r _ } $name, $name =~ s/(\.pl)?$/.pl/ir) {
@@ -105,6 +128,7 @@ sub _build_code {
           ($tmp) = $code->(@_); ## force array context
           return $tmp;
         };
+        local @ARGV = @_; # support subcommand
         $app = do $file;
 
         if ($@) {
@@ -163,6 +187,10 @@ Test::Applify - Testing Applify scripts
   is $app2->mode, 'expert', 'expert mode enabled';
   is $app2->input, 'strings.txt', 'reading strings.txt';
 
+  use Test::Applify 'applify_ok';
+  my $inlineapp = applify_ok("use Applify; app { print 'hello world!'; 0;};");
+  my $t = Test::Applify->new($inlineapp);
+
 =head1 DESCRIPTION
 
 L<Test::Applify> is a test agent to be used with L<Test::More> to test
@@ -184,6 +212,22 @@ checks for success of C<do>.
     my $instance = $app->_script->app;
     # more tests.
   }
+
+=head1 EXPORTED FUNCTIONS
+
+=head2 applify_ok
+
+  use Test::Applify 'applify_ok';
+  my $inlineapp = applify_ok("use Applify; app { print 'Hello world!'; 0;};");
+  my $t = Test::Applify->new($inlineapp);
+
+  my $helloapp = applify_ok("use Applify; app { print 'Hello $_[1]!'; 0;};",
+                            \@ARGV, 'hello app');
+  my $t = Test::Applify->new($helloapp);
+
+Utility function that wraps L<perlfunc/eval> and runs the same tests as L</new>.
+
+This function must be imported.
 
 =head1 METHODS
 
