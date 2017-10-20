@@ -9,14 +9,12 @@ can_ok $t, qw{is_option is_required_option version_ok};
 
 isa_ok $t->app_script, 'Applify', 'type is Applify';
 
-$t->can_ok(qw{mode input log});
-$t->documentation_ok;
-my $help = $t->help_ok;
-like $help, qr/options/, 'synopsis included';
-
+$t->can_ok(qw{mode input log})
+  ->documentation_ok
+  ->help_ok(qr/options/)
+  ->version_ok('1.2.999');
 $t->is_option($_) for qw{mode input};
 $t->is_required_option($_) for qw{input};
-$t->version_ok('1.2.999');
 
 ## app instance
 my $inst = $t->app_instance;

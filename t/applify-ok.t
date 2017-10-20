@@ -21,12 +21,12 @@ $t->app($app);
 
 isa_ok $t->app_script, 'Applify', 'type is Applify';
 
-$t->can_ok(qw{mode input});
-$t->documentation_ok;
-my $help = $t->help_ok;
+$t->can_ok(qw{mode input})
+  ->documentation_ok
+  ->help_ok
+  ->version_ok('1.0.999');
 $t->is_option($_) for qw{mode input};
 $t->is_required_option($_) for qw{input};
-$t->version_ok('1.0.999');
 
 ## again.
 $t = new_ok('Test::Applify', [$app]);
