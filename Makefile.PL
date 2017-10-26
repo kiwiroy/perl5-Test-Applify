@@ -11,5 +11,14 @@ WriteMakefile(
   ABSTRACT     => 'Testing framework for Applify',
   AUTHOR       => 'Roy Storey <kiwiroy@cpan.org>',
   PREREQ_PM    => { Applify => '0.12' },
+  EXE_FILES    => [qw{}],
+  META_MERGE   => {
+    resources => {
+      bugtracker => 'https://github.com/kiwiroy/perl5-Test-Applify/issues',
+      homepage   => 'https://github.com/kiwiroy/perl5-Test-Applify',
+      repository => 'https://github.com/kiwiroy/perl5-Test-Applify.git',
+    },
+  },
+  BUILD_REQUIRES => {'Test::More' => '0.90'},
   test => {TESTS => 't/*.t'}
 );
