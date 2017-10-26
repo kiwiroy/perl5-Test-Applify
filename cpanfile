@@ -6,3 +6,5 @@ on develop => sub {
   requires 'Test::Pod';
   requires 'Test::Pod::Coverage';
 };
+
+test_requires "Test::More" => "0.90";
