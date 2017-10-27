@@ -153,7 +153,8 @@ sub _build_code {
                     grep { -e $_ and -r _ } $name, $name =~ s/(\.pl)?$/.pl/ir) {
     {
       eval {
-        package Test::Applify::Container;
+        package
+          Test::Applify::Container; # do not index
         require Applify;
         no strict 'refs';
         no warnings 'redefine';
