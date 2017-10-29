@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Carp 'croak';
 use Exporter 'import';
+use File::Spec ();
 use File::Temp ();
 use Test::More ();
 
@@ -20,7 +21,8 @@ sub applify_ok {
   my $args = shift;
   my $desc = shift || 'applify_ok';
   my $self = __PACKAGE__->new();
-  my $dir  = File::Temp->newdir(TEMPLATE => 'test-applify-XXXXX', DIR => $ENV{TMPDIR});
+  my $dir  = File::Temp->newdir(TEMPLATE => 'test-applify-XXXXX',
+                                DIR => $ENV{TMPDIR} || File::Spec->tmpdir);
   my $fh   = File::Temp->new(DIR => $dir, SUFFIX => '.pl');
   my $file = $fh->filename;
   ($fh->syswrite($code) // -1) == length $code

@@ -42,5 +42,18 @@ $inst = $t->app_instance(qw{--mode expert --input test.txt});
 is $inst->mode, 'expert', 'set';
 is $inst->input, 'test.txt', 'also set';
 
+{
+  local %ENV = %ENV;
+  $ENV{TMPDIR} = undef;
+  $ENV{PERL_USE_UNSAFE_INC} = 0;
+  my $app = applify_ok(<<"HERE");
+use Applify;
+option str  => mode => 'basic or expert', default => 'basic';
+option file => input => 'file to read', required => 1;
+documentation 'Test::Applify';
+version '1.0.999';
+app {};
+HERE
 
+}
 done_testing;
