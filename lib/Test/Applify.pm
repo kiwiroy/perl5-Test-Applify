@@ -149,8 +149,9 @@ sub version_ok {
 sub _build_code {
   my ($self, $name) = (shift, shift);
   my ($app, %seen);
-  foreach my $file (grep { not $seen{$_}++ }
-                    grep { -e $_ and -r _ } $name, $name =~ s/(\.pl)?$/.pl/ir) {
+  (my $ext = $name) =~ s/(\.pl)?$/.pl/i;
+  foreach my $file (grep { not $seen{lc $_}++ }
+                    grep { -e $_ and -r _ } $name, $ext) {
     {
       eval {
         package
@@ -178,6 +179,7 @@ sub _build_code {
           warn "coding error in $file - app must be the last function called\n";
         }
       };
+      $self->_filename($file);
     }
   }
   die $@ if $@;
