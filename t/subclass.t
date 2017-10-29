@@ -19,6 +19,9 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Applify qw{applify_ok applify_subcommands_ok};
+my $check = eval "use Applify; app {};" or die "$@";
+plan skip_all => 'Requires a version of Applify with subcommand'
+  unless $check->_script->can('subcommand');
 
 my $app = applify_ok(<<"HERE");
 use Applify;
