@@ -8,6 +8,7 @@ perl:
   - "5.16"
   - "5.14"
   - "5.12"
+  - "5.10"
 install:
   - cpanm -n --quiet --installdeps --with-develop .
 after_success:
