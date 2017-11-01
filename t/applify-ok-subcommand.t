@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Applify 'applify_ok', 'applify_subcommands_ok';
-use B::Deparse;
+
 my $check = eval "use Applify; app {};" or die "$@";
 
 plan skip_all => 'Requires a version of Applify with subcommand'

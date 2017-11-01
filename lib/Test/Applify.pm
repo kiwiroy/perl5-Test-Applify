@@ -82,6 +82,12 @@ sub documentation_ok {
   return $self;
 }
 
+sub extends_ok {
+    my $self = shift;
+    $self->_test('isa_ok', $self->app, $_[0], $_[1] || 'application class');
+    return $self;
+}
+
 sub help_ok {
   my $self = shift;
   my $like = shift || qr/help/;
@@ -328,6 +334,13 @@ Test for the presence of methods that the script has.
   $t->documentation_ok;
 
 Test the documentation.
+
+=head2 extends_ok
+
+  $t->extends_ok('Parent::Class');
+  $t->extends_ok('Parent::Class', 'object name');
+
+Test the inheritance.
 
 =head2 help_ok
 
