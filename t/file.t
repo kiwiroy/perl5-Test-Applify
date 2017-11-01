@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use POSIX ();
 use Test::More;
 use Test::Applify;
 
@@ -41,7 +42,7 @@ like $@, qr[Can't locate WhiteSpace\.pm in \@INC], 'syntax error';
 ## script that does not exist
 eval { Test::Applify->new('./t/not-existing.pl'); };
 like $@, qr[Applify app not created], 'app not defined';
-like $@, qr[\(No such file or directory\)], 'no such file';
+is $! + 0, POSIX::ENOENT, 'no such file'; # dualvar $! subject to i18n messages
 
 ## script that has an expression evaluated after app() is.
 $t = Test::Applify->new('./t/coding-error-1.pl');
@@ -54,5 +55,14 @@ is $t->app_instance->some_method, 'something', 'recovered again';
 eval { Test::Applify->new('./t/coding-error-3.pl'); };
 like $@, qr[coding error in], 'coding error - no app';
 
+$t = Test::Applify->new('./t/file');
+is $t->_filename, './t/file.pl', 'filename expands';
+
+$t = Test::Applify->new('./t/file.PL');
+if (-e './t/file.PL') {
+  is $t->_filename, './t/file.PL', 'case-insensitive fs';
+} else {
+  is $t->_filename, './t/file.pl', 'PL -> pl on case-sensitive fs';
+}
 
 done_testing;

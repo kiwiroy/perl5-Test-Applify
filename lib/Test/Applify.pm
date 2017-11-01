@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Carp 'croak';
 use Exporter 'import';
+use File::Spec ();
 use File::Temp ();
 use Test::More ();
 
@@ -20,7 +21,8 @@ sub applify_ok {
   my $args = shift;
   my $desc = shift || 'applify_ok';
   my $self = __PACKAGE__->new();
-  my $dir  = File::Temp->newdir(TEMPLATE => 'test-applify-XXXXX', DIR => $ENV{TMPDIR});
+  my $dir  = File::Temp->newdir(TEMPLATE => 'test-applify-XXXXX',
+                                DIR => $ENV{TMPDIR} || File::Spec->tmpdir);
   my $fh   = File::Temp->new(DIR => $dir, SUFFIX => '.pl');
   my $file = $fh->filename;
   ($fh->syswrite($code) // -1) == length $code
@@ -149,8 +151,9 @@ sub version_ok {
 sub _build_code {
   my ($self, $name) = (shift, shift);
   my ($app, %seen);
-  foreach my $file (grep { not $seen{$_}++ }
-                    grep { -e $_ and -r _ } $name, $name =~ s/(\.pl)?$/.pl/ir) {
+  (my $ext = $name) =~ s/(\.pl)?$/.pl/i;
+  foreach my $file (grep { not $seen{lc $_}++ }
+                    grep { -e $_ and -r _ } $name, $ext) {
     {
       eval {
         package
@@ -178,6 +181,7 @@ sub _build_code {
           warn "coding error in $file - app must be the last function called\n";
         }
       };
+      $self->_filename($file);
     }
   }
   die $@ if $@;
@@ -209,6 +213,8 @@ Test::Applify - Testing Applify scripts
 =for html <a href="https://travis-ci.org/kiwiroy/perl5-Test-Applify"><img src="https://travis-ci.org/kiwiroy/perl5-Test-Applify.svg?branch=master" alt="Build Status"></a>
 
 =for html <a href="https://coveralls.io/github/kiwiroy/perl5-Test-Applify?branch=master"><img src="https://coveralls.io/repos/github/kiwiroy/perl5-Test-Applify/badge.svg?branch=master" alt="Coverage Status"></a>
+
+=for html <a href="https://badge.fury.io/pl/Test-Applify"><img src="https://badge.fury.io/pl/Test-Applify.svg" alt="CPAN version" height="18"></a>
 
 =head1 SYNOPSIS
 
