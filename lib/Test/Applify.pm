@@ -9,7 +9,7 @@ use File::Temp ();
 use Test::More ();
 
 our @EXPORT_OK = ('applify_ok', 'applify_subcommands_ok');
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub app {
   @_ == 2 and $_[0]->{app} = $_[1];
