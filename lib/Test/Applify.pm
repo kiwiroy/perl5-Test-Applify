@@ -64,7 +64,7 @@ sub app_instance {
   my ($self, $name) = (shift, @_);
   $name = shift if ($name and $name =~ /^\w+/); # no change to specialisation now
   local @ARGV = @_;
-  return $self->app_script->app;
+  return ($self->app_script->app)[0];
 }
 
 sub can_ok {
@@ -134,7 +134,7 @@ sub new {
   my $class = shift;
   my $self  = bless {}, ref $class || $class || __PACKAGE__;
   return $self unless my $app = shift;
-  $self->app(ref $app ? $app : $self->_build_code($self->_filename($app)->_filename));
+  $self->app(ref $app ? $app : $self->_build_code($self->_filename($app)->_filename, @_));
   return $self;
 }
 
