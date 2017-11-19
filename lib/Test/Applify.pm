@@ -364,6 +364,8 @@ Test that the option is a required option.
 =head2 new
 
   my $t = Test::Applify->new('script.pl');
+  # instance for the 'list' subcommand
+  my $t = Test::Applify->new('script.pl', 'list');
 
 Instantiate a new test instance for the supplied script name.
 
