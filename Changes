@@ -1,6 +1,6 @@
 Revision history for perl module Test::Applify
 
-0.04 Not Released
+0.04 2017-11-20T12:29:50+1300
  - accommodate subcommands in new()
 
 0.03 2017-11-02T07:20:04+1300
