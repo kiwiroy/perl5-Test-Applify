@@ -133,8 +133,8 @@ like $stderr, qr/\w+/, 'bye message'; ## Illegal division by zero - subject to i
 
 # rescue
 $t = new_ok('Test::Applify', [$code]);
-my $inst = $t->app_instance(qw{-denom 1});
-($retval, $stdout, $stderr, $exited) = $t->run_instance_ok($inst);
+$app = $t->app_instance(qw{-denom 1});
+($retval, $stdout, $stderr, $exited) = $t->run_instance_ok($app);
 is $exited, 0, 'unsuccessful run';
 is $retval, 0, 'return value == 0';
 is $stdout, "tends to infinity\n1\n", 'and beyond';
