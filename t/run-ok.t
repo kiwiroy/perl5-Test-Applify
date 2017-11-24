@@ -115,10 +115,11 @@ $code = applify_ok <<'DIVIDE';
 use feature ':5.10';
 use Applify;
 
+option int => denom => 'a denominator', default => 0;
 app {
     my ($self) = @_;
     say "tends to infinity";
-    say 1 / 0;
+    say 1 / $self->denom;
     return 0;
 };
 DIVIDE
@@ -129,6 +130,16 @@ is $exited, 0, 'unsuccessful run';
 is $retval, undef, 'return value undef';
 is $stdout, "tends to infinity\n", 'and beyond';
 like $stderr, qr/\w+/, 'bye message'; ## Illegal division by zero - subject to i18n
+
+# rescue
+$t = new_ok('Test::Applify', [$code]);
+my $inst = $t->app_instance(qw{-denom 1});
+($retval, $stdout, $stderr, $exited) = $t->run_instance_ok($inst);
+is $exited, 0, 'unsuccessful run';
+is $retval, 0, 'return value == 0';
+is $stdout, "tends to infinity\n1\n", 'and beyond';
+is $stderr, '', 'bye message';
+
 
 
 #
