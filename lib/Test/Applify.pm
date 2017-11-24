@@ -160,14 +160,14 @@ sub run_instance_ok {
 
     untie *STDOUT;
     untie *STDERR;
-    
+
     return ($retval, $stdout || $@, $@ || $stderr, $exited);
 }
 
 sub run_ok {
     my $self = shift;
     $self->run_instance_ok($self->app_instance(@_));
-};
+}
 
 
 sub subcommand_ok {
@@ -256,7 +256,7 @@ sub _test {
 
 Test::Applify - Testing Applify scripts
 
-=begin html 
+=begin html
 
 <!-- Travis-CI.org -->
 <a href="https://travis-ci.org/kiwiroy/perl5-Test-Applify">
@@ -299,7 +299,7 @@ Test::Applify - Testing Applify scripts
   is $app2->mode, 'expert', 'expert mode enabled';
   is $app2->input, 'strings.txt', 'reading strings.txt';
   $t->run_instance_ok($app2);
-  
+
   my $inlineapp = applify_ok("use Applify; app { print 'hello world!'; 0;};");
   $t = Test::Applify->new($inlineapp);
 
