@@ -93,10 +93,8 @@ sub extends_ok {
 sub help_ok {
   my $self = shift;
   my $like = shift || qr/help/;
-  local *STDOUT;
-  local *STDERR;
-  my $stdout = '';
-  my $stderr = '';
+  local (*STDOUT, *STDERR);
+  my ($stdout, $stderr) = ('', '');
   open STDOUT, '>', \$stdout;
   open STDERR, '>', \$stderr;
   $self->app_script->print_help();
@@ -152,6 +150,7 @@ sub run_instance_ok {
     #local (*STDOUT, *STDERR);
     #open STDOUT, '>', \$stdout;
     #open STDERR, '>', \$stderr;
+    # different approach to help_ok
     tie *STDOUT, 'IO::String', \$stdout;
     tie *STDERR, 'IO::String', \$stderr;
 
