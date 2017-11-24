@@ -9,10 +9,14 @@ perl:
   - "5.14"
   - "5.12"
   - "5.10"
+env:
+  global:
+  - KRITIKA_TOKEN=300f4c9c71ee3fb3a785e5fbf35159cc78b4d2fc
 install:
   - cpanm -n --quiet --installdeps --with-develop .
 after_success:
   - cover -test -report coveralls
+  - cover -test -report kritika
 sudo: false
 notifications:
   email: false
