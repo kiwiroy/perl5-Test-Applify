@@ -16,7 +16,7 @@ app {
     return 0;
 };
 SIMPLE
-    ;
+
 my ($t, $app, $retval, $stdout, $stderr, $exited);
 
 $t = new_ok('Test::Applify', [$code]);
@@ -37,7 +37,7 @@ app {
     return 0;
 };
 DIES
-    ;
+
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
 is $exited, 0, 'successful run';
@@ -57,7 +57,7 @@ app {
     return 0;
 };
 MESSAGE
-    ;
+
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
 is $exited, 0, 'successful run';
@@ -78,7 +78,7 @@ app {
     return 0;
 };
 MESSAGES
-    ;
+
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
 is $exited, 0, 'successful run';
@@ -99,7 +99,7 @@ app {
     return 1;
 };
 SHELLCODE
-    ;
+
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
 is $exited, 0, 'successful run';
@@ -123,7 +123,7 @@ app {
     return 0;
 };
 DIVIDE
-    ;
+
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
 is $exited, 0, 'unsuccessful run';
@@ -139,7 +139,6 @@ is $exited, 0, 'unsuccessful run';
 is $retval, 0, 'return value == 0';
 is $stdout, "tends to infinity\n1\n", 'and beyond';
 is $stderr, '', 'bye message';
-
 
 
 #
@@ -160,7 +159,7 @@ app {
     return 0;
 };
 EXIT
-    ;
+
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
 is $retval, 0, 'return value undef';
