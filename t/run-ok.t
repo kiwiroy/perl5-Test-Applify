@@ -84,8 +84,12 @@ $t = new_ok('Test::Applify', [$code]);
 is $exited, 0, 'successful run';
 is $retval, 0, 'return value == 0';
 is $stdout, "Hello World.\n", 'hi message';
-is $stderr, "Goodbye, Cruel World.\n", 'bye message';
-
+if ($^V lt v5.18.0) {
+    # something different on 5.10 -> 5.16.3
+    like $stderr, qr/^Goodbye, Cruel World.\n/, 'bye message';
+} else {
+    is $stderr, "Goodbye, Cruel World.\n", 'bye message';
+}
 #
 # app block return code - goes to shell
 #
@@ -105,8 +109,12 @@ $t = new_ok('Test::Applify', [$code]);
 is $exited, 0, 'successful run';
 is $retval, 1, 'return value == 1';
 is $stdout, "Hello World.\n", 'hi message';
-is $stderr, "Goodbye, Cruel World.\n", 'bye message';
-
+if ($^V lt v5.18.0) {
+    # something different on 5.10 -> 5.16.3
+    like $stderr, qr/^Goodbye, Cruel World.\n/, 'bye message';
+} else {
+    is $stderr, "Goodbye, Cruel World.\n", 'bye message';
+}
 
 #
 # effectively a die
@@ -165,8 +173,12 @@ $t = new_ok('Test::Applify', [$code]);
 is $retval, 0, 'return value == 0';
 is $exited, 1, 'unsuccessful run';
 is $stdout, "trying this\n", 'hi message';
-is $stderr, "try this - exiting\n", 'bye message';
-
+if ($^V lt v5.18.0) {
+    # something different on 5.10 -> 5.16.3
+    like $stderr, qr/^try this - exiting\n/, 'bye message';
+} else {
+    is $stderr, "try this - exiting\n", 'bye message';
+}
 
 
 done_testing;
