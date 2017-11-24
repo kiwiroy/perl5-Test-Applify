@@ -61,7 +61,7 @@ MESSAGE
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
 is $exited, 0, 'successful run';
-is $retval, 0, 'return value undef';
+is $retval, 0, 'return value == 0';
 is $stdout, "Hello World.\n", 'hi message';
 is $stderr, "", 'no messages';
 
@@ -74,7 +74,7 @@ use Applify;
 app {
     my ($self, @e) = @_;
     say "Hello World.";
-    warn "Goodbye, Cruel World.\n"; 
+    warn "Goodbye, Cruel World.\n";
     return 0;
 };
 MESSAGES
@@ -162,7 +162,7 @@ EXIT
 
 $t = new_ok('Test::Applify', [$code]);
 ($retval, $stdout, $stderr, $exited) = $t->run_ok();
-is $retval, 0, 'return value undef';
+is $retval, 0, 'return value == 0';
 is $exited, 1, 'unsuccessful run';
 is $stdout, "trying this\n", 'hi message';
 is $stderr, "try this - exiting\n", 'bye message';
