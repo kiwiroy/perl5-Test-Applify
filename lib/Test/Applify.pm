@@ -10,7 +10,7 @@ use IO::String ();
 use Test::More ();
 
 our @EXPORT_OK = ('applify_ok', 'applify_subcommands_ok');
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 our $exited = 0;
 
 sub app {
